@@ -1,0 +1,4 @@
+repository "GameDesign_HW2@hjk9412@cloud"
+  path "/"
+    br "/main"
+    co "/main"
