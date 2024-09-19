@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,8 +17,10 @@ public class BallSpawner : MonoBehaviour
 
     [SerializeField] private GameObject ballPrefab;
 
+    [SerializeField] int minForce = 10;
+
     private Vector3 clubDirection;
-    private bool swing = true;
+    private float swing = 0;
     private int ballForce;
     private GameObject ball;
 
@@ -37,34 +40,28 @@ public class BallSpawner : MonoBehaviour
         club.transform.right = clubDirection;
         Vector3 clubRotation = club.transform.rotation.eulerAngles;
 
-        if (!swing)
-        {
-            club.rotation = Quaternion.Euler(clubRotation.x, clubRotation.y, clubRotation.z + clubSpawnOffset);
-        }
+        swing += Time.deltaTime;
+
+        if (swing >= 0)
+            club.rotation = Quaternion.Euler(clubRotation.x, clubRotation.y, clubRotation.z - clubSwingOffset);
 
         if (Input.GetMouseButtonDown(0))
         {
             ball.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb);
             rb.AddForce(clubDirection.normalized * ballForce);
-                
+            club.rotation = Quaternion.Euler(clubRotation.x, clubRotation.y, clubRotation.z + clubSpawnOffset);
+            swing = -(45 * Time.deltaTime);
         }
 
-        print("Ball pos = " + ball.transform.position);
-        print("Club pos = " + club.position);
-
-        if (newBallTimer > 2*Time.deltaTime && Mathf.Abs(ball.transform.position.x - club.position.x) >= 1)
+        if (Mathf.Abs(ball.transform.position.x - club.position.x) >= 1)
         {
             ball = Instantiate(ballPrefab, club.position, Quaternion.identity);
-            club.rotation = Quaternion.Euler(clubRotation.x, clubRotation.y, clubRotation.z - clubSwingOffset);
-            newBallTimer = 0;
         }
-
-        newBallTimer += Time.deltaTime;
     }
 
     private void FixedUpdate()
     {
-        ballForce = Mathf.Abs(Mathf.RoundToInt(Mathf.Sin(Time.time) * maxBallForce));
-        slider.value = ballForce;
+        ballForce = Mathf.Abs(Mathf.RoundToInt(Mathf.Sin(Time.time) * maxBallForce)) + minForce;
+        slider.value = ballForce - minForce;
     }
 }
