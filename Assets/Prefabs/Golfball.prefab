@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2670632694826248778}
   - component: {fileID: 2616780357554547554}
   - component: {fileID: 2982929919616449129}
+  - component: {fileID: 1314944411290909624}
   m_Layer: 0
   m_Name: Golfball
   m_TagString: Untagged
@@ -148,3 +149,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1314944411290909624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7356760938326943661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 918eba62bd219f946b18a1400e6201a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killZone: 15

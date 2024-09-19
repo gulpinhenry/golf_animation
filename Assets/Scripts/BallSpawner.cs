@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,9 @@ public class BallSpawner : MonoBehaviour
     private bool swing = true;
     private int ballForce;
     private GameObject ball;
+
+    float newBallTimer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,29 +41,25 @@ public class BallSpawner : MonoBehaviour
         {
             club.rotation = Quaternion.Euler(clubRotation.x, clubRotation.y, clubRotation.z + clubSpawnOffset);
         }
-        else
-        {
-            club.rotation = Quaternion.Euler(clubRotation.x, clubRotation.y, clubRotation.z - clubSwingOffset);
-        }
 
         if (Input.GetMouseButtonDown(0))
         {
-            swing = !swing;
-
-            if (!swing)
-            {
-                if (ball != null)
-                {
-                    ball.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb);
-                    rb.AddForce(clubDirection.normalized * ballForce);
-                }
-            }
-            else
-            {
-                ball = Instantiate(ballPrefab, club.position, Quaternion.identity);
-
-            }
+            ball.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb);
+            rb.AddForce(clubDirection.normalized * ballForce);
+                
         }
+
+        print("Ball pos = " + ball.transform.position);
+        print("Club pos = " + club.position);
+
+        if (newBallTimer > 2*Time.deltaTime && Mathf.Abs(ball.transform.position.x - club.position.x) >= 1)
+        {
+            ball = Instantiate(ballPrefab, club.position, Quaternion.identity);
+            club.rotation = Quaternion.Euler(clubRotation.x, clubRotation.y, clubRotation.z - clubSwingOffset);
+            newBallTimer = 0;
+        }
+
+        newBallTimer += Time.deltaTime;
     }
 
     private void FixedUpdate()
