@@ -19,18 +19,25 @@ public class BallSpawner : MonoBehaviour
 
     [SerializeField] int minForce = 10;
 
+    [SerializeField] AudioSource hitSFXManager;
+
     private Vector3 clubDirection;
     private float swing = 0;
-    private int ballForce;
+    [SerializeField]  private int ballForce;
     private GameObject ball;
 
+    public bool isBigHit;
+
     float newBallTimer;
+
+    private TrailRenderer trail;
 
     // Start is called before the first frame update
     void Start()
     {
         slider.maxValue = maxBallForce;
         ball = Instantiate(ballPrefab, club.position, Quaternion.identity);
+        trail = ball.GetComponentInChildren<TrailRenderer>();
     }
 
     // Update is called once per frame
@@ -51,11 +58,23 @@ public class BallSpawner : MonoBehaviour
             rb.AddForce(clubDirection.normalized * ballForce);
             club.rotation = Quaternion.Euler(clubRotation.x, clubRotation.y, clubRotation.z + clubSpawnOffset);
             swing = -(45 * Time.deltaTime);
+
+            if (ballForce >= maxBallForce / 2)
+            {
+                trail.enabled = true;
+                isBigHit = true;
+            }
+            else
+            {
+                isBigHit = false;
+            }
         }
 
         if (Mathf.Abs(ball.transform.position.x - club.position.x) >= 1)
         {
             ball = Instantiate(ballPrefab, club.position, Quaternion.identity);
+            trail = ball.GetComponentInChildren<TrailRenderer>();
+            trail.enabled = false;
         }
     }
 
