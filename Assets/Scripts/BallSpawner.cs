@@ -19,10 +19,14 @@ public class BallSpawner : MonoBehaviour
 
     [SerializeField] int minForce = 10;
 
+    [SerializeField] AudioSource hitSFXManager;
+
     private Vector3 clubDirection;
     private float swing = 0;
-    private int ballForce;
+    [SerializeField]  private int ballForce;
     private GameObject ball;
+
+    public bool isBigHit;
 
     float newBallTimer;
 
@@ -56,6 +60,14 @@ public class BallSpawner : MonoBehaviour
         if (Mathf.Abs(ball.transform.position.x - club.position.x) >= 1)
         {
             ball = Instantiate(ballPrefab, club.position, Quaternion.identity);
+        }
+
+        if (ballForce >= maxBallForce / 2)
+        {
+            isBigHit = true;
+        } else
+        {
+            isBigHit = false;
         }
     }
 
