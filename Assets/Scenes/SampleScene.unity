@@ -1872,7 +1872,7 @@ MonoBehaviour:
   clubSwingOffset: 90
   maxBallForce: 800
   slider: {fileID: 593623711}
-  ballPrefab: {fileID: 7356760938326943661, guid: 6b32947daf2463c46b6a023d59f32e32, type: 3}
+  ballPrefab: {fileID: 2965574391977284682, guid: 6b32947daf2463c46b6a023d59f32e32, type: 3}
   minForce: 100
   hitSFXManager: {fileID: 0}
   ballForce: 0
