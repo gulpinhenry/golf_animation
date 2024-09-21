@@ -75,7 +75,7 @@ public class BallSpawner : MonoBehaviour
                 lclShaker.start = false;
             }
 
-            if (ballForce < (maxBallForce + minForce) * .25)
+            if (ballForce <= (maxBallForce + minForce) * .25)
             {
                 dirt.Play();
             }

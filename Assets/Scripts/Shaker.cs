@@ -17,12 +17,9 @@ public class Shaker : MonoBehaviour
     void Update()
     {
         if (start)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                start = false;
-                StartCoroutine(Shaking());
-            }
+        {   
+            start = false;
+            StartCoroutine(Shaking());
         }
 
     }
