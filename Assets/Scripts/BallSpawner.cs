@@ -16,6 +16,7 @@ public class BallSpawner : MonoBehaviour
     [SerializeField] private Slider slider;
 
     [SerializeField] private GameObject ballPrefab;
+    [SerializeField] private Shaker lclShaker;
 
     [SerializeField] int minForce = 10;
 
@@ -59,14 +60,16 @@ public class BallSpawner : MonoBehaviour
             club.rotation = Quaternion.Euler(clubRotation.x, clubRotation.y, clubRotation.z + clubSpawnOffset);
             swing = -(45 * Time.deltaTime);
 
-            if (ballForce >= maxBallForce / 2)
+            if (ballForce >= maxBallForce / 1.5)
             {
                 trail.enabled = true;
                 isBigHit = true;
+                lclShaker.start = true;
             }
             else
             {
                 isBigHit = false;
+                lclShaker.start = false;
             }
         }
 
