@@ -18,9 +18,11 @@ public class BallSpawner : MonoBehaviour
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private Shaker lclShaker;
 
-    [SerializeField] int minForce = 10;
+    [SerializeField] int minForce = 100;
 
     [SerializeField] AudioSource hitSFXManager;
+
+    [SerializeField] ParticleSystem dirt;
 
     private Vector3 clubDirection;
     private float swing = 0;
@@ -39,6 +41,7 @@ public class BallSpawner : MonoBehaviour
         slider.maxValue = maxBallForce;
         ball = Instantiate(ballPrefab, club.position, Quaternion.identity);
         trail = ball.GetComponentInChildren<TrailRenderer>();
+        trail.enabled = false;
     }
 
     // Update is called once per frame
@@ -60,7 +63,7 @@ public class BallSpawner : MonoBehaviour
             club.rotation = Quaternion.Euler(clubRotation.x, clubRotation.y, clubRotation.z + clubSpawnOffset);
             swing = -(45 * Time.deltaTime);
 
-            if (ballForce >= maxBallForce / 1.5)
+            if (ballForce >= (maxBallForce + minForce) / 1.5)
             {
                 trail.enabled = true;
                 isBigHit = true;
@@ -70,6 +73,11 @@ public class BallSpawner : MonoBehaviour
             {
                 isBigHit = false;
                 lclShaker.start = false;
+            }
+
+            if (ballForce < (maxBallForce + minForce) * .25)
+            {
+                dirt.Play();
             }
         }
 
