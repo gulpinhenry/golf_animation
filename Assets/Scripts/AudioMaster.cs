@@ -22,11 +22,26 @@ public class AudioMaster : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (lclBallSpawner.isBigHit)
+            if (lclBallSpawner.sound.isOn)
             {
-                clapSFX.PlayDelayed((float)0.5);
+                if (lclBallSpawner.isBigHit)
+                {
+                    clapSFX.PlayDelayed((float)0.5);
+                }
+                hitSFX();
             }
-            hitSFX();
+        }
+
+        if (lclBallSpawner.sound.isOn)
+        {
+            if (!ambience.isPlaying)
+            {
+                ambience.Play();
+            }
+        }
+        else
+        {
+            ambience.Pause();
         }
     }
 

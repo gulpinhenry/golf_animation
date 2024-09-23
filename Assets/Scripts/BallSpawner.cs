@@ -7,6 +7,12 @@ using UnityEngine.UI;
 
 public class BallSpawner : MonoBehaviour
 {
+    public Toggle tracer;
+    public Toggle sound;
+    public Toggle shake;
+    public Toggle particles;
+
+
     [SerializeField] private Transform club;
 
     [SerializeField] private float clubSpawnOffset = 20;
@@ -42,6 +48,11 @@ public class BallSpawner : MonoBehaviour
         ball = Instantiate(ballPrefab, club.position, Quaternion.identity);
         trail = ball.GetComponentInChildren<TrailRenderer>();
         trail.enabled = false;
+
+        tracer = GameObject.Find("Tracer Toggle").GetComponent<Toggle>();
+        sound = GameObject.Find("Sound Toggle").GetComponent<Toggle>();
+        shake = GameObject.Find("Screen Shake Toggle").GetComponent<Toggle>();
+        particles = GameObject.Find("Particle Toggle").GetComponent<Toggle>();
     }
 
     // Update is called once per frame
@@ -65,9 +76,12 @@ public class BallSpawner : MonoBehaviour
 
             if (ballForce >= (maxBallForce + minForce) / 1.5)
             {
-                trail.enabled = true;
-                isBigHit = true;
-                lclShaker.start = true;
+                if (tracer.isOn)
+                    trail.enabled = true;
+                if (sound.isOn)
+                    isBigHit = true;
+                if (shake.isOn)
+                    lclShaker.start = true;
             }
             else
             {
@@ -77,7 +91,8 @@ public class BallSpawner : MonoBehaviour
 
             if (ballForce <= (maxBallForce + minForce) * .25)
             {
-                dirt.Play();
+                if (particles.isOn)
+                    dirt.Play();
             }
         }
 
