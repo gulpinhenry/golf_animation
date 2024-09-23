@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Kill_Script : MonoBehaviour
 {
+    Toggle sound;
+
     [SerializeField] float killZone = 10;
     [SerializeField] bool canBePressed;
     [SerializeField] AudioSource hole;
@@ -11,7 +14,7 @@ public class Kill_Script : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        sound = GameObject.Find("Sound Toggle").GetComponent<Toggle>();
     }
 
     // Update is called once per frame
@@ -38,7 +41,8 @@ public class Kill_Script : MonoBehaviour
         {
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
-            hole.Play();
+            if (sound.isOn)
+                hole.Play();
         }
     }
 

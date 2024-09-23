@@ -12,7 +12,6 @@ public class BallSpawner : MonoBehaviour
     public Toggle shake;
     public Toggle particles;
 
-
     [SerializeField] private Transform club;
 
     [SerializeField] private float clubSpawnOffset = 20;

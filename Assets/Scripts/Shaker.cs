@@ -23,7 +23,6 @@ public class Shaker : MonoBehaviour
         }
 
     }
-
     IEnumerator Shaking()
     {
         Vector3 startPosition = transform.position;
